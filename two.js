@@ -17,29 +17,30 @@ const obj = {}
 const result = []
 let findDuplicate = {}
 const duplicateEmail = {}
-let email = {}
+let email = []
 
 const getDupes = () => {
   for (let i = 0; i < users.length; i++) {
-    findDuplicate = users.filter(data => data.email === users[i].email)
-
-    if (findDuplicate.length > 1) {
-      if (duplicateEmail[findDuplicate[0].email]) {
-        continue
-      }
-
-      result.push(findDuplicate[0].email)
-      duplicateEmail[findDuplicate[0].email] = 1
+    const item = users[i]
+    duplicateEmail[item.email] = duplicateEmail[item.email] >= 1 ? duplicateEmail[item.email] + 1 : 1
+    if (duplicateEmail[item.email] > 1) {
+      result.push(item.email)
+      continue    
     }
+    
     for (let j = 0; j < result.length; j++) {
       obj['email_' + (j + 1)] = []
       email = users.filter(e => e.email === result[j])
 
-        obj['email_' + (j + 1)].push('user_id' + email[0].id)            
+      for (let i = 0; i < email.length; i++) {
+        obj['email_' + (j + 1)].push('user_id' + email[i].id)            
+      }
     }
-  }
-
+  }   
+   
   return obj
 }
+
 console.log(getDupes());
 perf(getDupes)
+

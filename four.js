@@ -14,14 +14,16 @@
 const perf = require('./utils/perf')
 const users = require('./data/users')
 let newArray
+let list = []
 
 const group = () => {
+  
   while (users.length > 0) {
     newArray = users.splice(0, 5)
+    list.push(newArray)
   }
-  return newArray
-}
-  
+  return list
+} 
 
 console.log(group())
 perf(group)
