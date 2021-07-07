@@ -16,11 +16,11 @@ const users = require('./data/users')
 let obj = {}
 const vowel = 'aeiou'
 
-const getUsernamesWithMoreThan3Vowels = () => { 
+const getUsernamesWithMoreThan3Vowels = () => {
   for (let i = 0; i < users.length; i++) {
-    const a = Array.from(users[i].name)
-    .filter(v => vowel.includes(v.toLowerCase()))
-    obj['name_' + (i + 1)] = a.length    
+    const a = Array.from(users[i].name).filter(v => vowel.includes(v.toLowerCase())).length
+    obj[users[i].name] = a
+    continue
   }
   return obj
 }

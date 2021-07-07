@@ -14,34 +14,13 @@
 const perf = require('./utils/perf')
 const users = require('./data/users')
 const obj = {}
-const existingAddress = {}
-const address = []
-let found = {}
 
 const groupByAddress = () => {
-  for (let i = 0; i < users.length; i++) {
-    
-    if (existingAddress[users[i].address]) {
-      continue
-    }
+  const address = [...new Set(users.map(item => item.address))]
 
-    address.push(users[i].address)
-    existingAddress[users[i].address] = 1
-
-    for (let j = 0; j < address.length; j++) {
-      obj['address_' + (j + 1)] = []
-      found = users.filter(ad => ad.address === address[j])
-
-        if (found.length > 1) {
-          for (let i = 0; i < found.length; i++) {
-            obj['address_' + (j + 1)].push('user_id' + found[i].id)            
-          }
-
-        } else {
-            obj['address_' + (j + 1)].push('user_id' + found[0].id)
-      }
-      
-    }    
+  for (let i = 0; i < address.length; i++) {
+    const b = users.filter(ad => ad.address === address[i])
+    obj[address[i]] = b.map(e => 'user_id' + e.id)
   }
   return obj
 }
