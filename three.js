@@ -14,13 +14,14 @@
 const perf = require('./utils/perf')
 const users = require('./data/users')
 let obj = {}
-const vowel = 'aeiou'
+const vowel = 'aeiouAEIOU'
 
 const getUsernamesWithMoreThan3Vowels = () => {
   for (let i = 0; i < users.length; i++) {
-    const a = Array.from(users[i].name).filter(v => vowel.includes(v.toLowerCase())).length
-    obj[users[i].name] = a
-    continue
+    const a = Array.from(users[i].name).filter(v => vowel.includes(v)).length
+    if (a >= 9) {
+      obj[users[i].name] = a      
+    }
   }
   return obj
 }

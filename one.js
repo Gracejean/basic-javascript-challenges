@@ -14,17 +14,46 @@
 const perf = require('./utils/perf')
 const users = require('./data/users')
 const obj = {}
+const existingAddress = {}
+const existingId = {}
 
 const groupByAddress = () => {
-  const address = [...new Set(users.map(item => item.address))]
 
-  for (let i = 0; i < address.length; i++) {
-    const b = users.filter(ad => ad.address === address[i])
-    obj[address[i]] = b.map(e => 'user_id' + e.id)
+  for (let i = 0; i < users.length; i++) {    
+    if (existingAddress[users[i].address]) {     
+      continue
+    }
+    existingAddress[users[i].address] = 1
+    
+    obj[users[i].address] = []
+    obj[users[i].address].push('user_id' + users[i].id)
+    
   }
-  return obj
+  // return obj
+  
 }
 
 console.log(groupByAddress())
-perf(groupByAddress) 
+// perf(groupByAddress) 
 
+
+const perf = require('./utils/perf')
+const users = require('./data/users')
+const obj = {}
+const existingAddress = {}
+
+const groupByAddress = () => {
+  const address = users.map(item => item.address)
+
+  for (let i = 0; i < address.length; i++) {
+    if (existingAddress[address[i]]) {
+      continue
+    }
+
+    const b = users.filter(ad => ad.address === address[i])
+    obj[address[i]] = b.map(e => 'user_id' + e.id)
+    existingAddress[address[i]] = 1
+    
+  }
+  return obj
+}
