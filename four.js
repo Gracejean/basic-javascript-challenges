@@ -13,10 +13,10 @@
 
 const perf = require('./utils/perf')
 const users = require('./data/users')
-let newArray
-let list = []
 
 const group = () => {
+  let newArray
+  let list = []
   
   while (users.length > 0) {
     newArray = users.splice(0, 5)

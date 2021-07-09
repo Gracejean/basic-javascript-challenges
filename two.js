@@ -13,25 +13,27 @@
 
 const perf = require('./utils/perf')
 const users = require('./data/users')
-const obj = {}
-let existingEmail = {}      
 
-const getDupes = () => {      
-  const email = users.map(e => e.email)
-  
-  for (let i = 0; i < email.length; i++) {        
-    if (existingEmail[email[i]]) {
-      continue
+const getDupes = () => {
+  const data = {}  
+  users.reduce((obj, currentObj) => {
+    const email = currentObj.email
+
+    if (!obj[email]) {
+      obj[email] = []
     }
     
-    const data = users.filter(e => e.email === email[i])
-    if (data.length > 1) {
-      obj[email[i]] = data.map(e => 'user_id' + e.id)
-    }        
-    existingEmail[email[i]] = true
-  }
+    obj[email].push('user_id' + currentObj.id)
 
-  return obj
+    if (obj[email].length > 1) {
+      data[email] = obj[email]
+    }
+
+    return obj
+     
+  }, {})  
+ 
+  return data
 }
 
 console.log(getDupes());
